@@ -1,0 +1,14 @@
+On branch core_initial
+Your branch is up to date with 'origin/core_initial'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    core/view.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	core/views.py
+	views.py'
+
+no changes added to commit (use "git add" and/or "git commit -a")
