@@ -1,0 +1,55 @@
+{% load bootstrap4 %}
+{% load static %}
+
+<html {% if LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}"{% endif %}>
+
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Event Advisor</title>
+      {% block styles %}{% bootstrap_css %}{% endblock %}
+      {% block scripts %}{% bootstrap_javascript jquery='full' %}{% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container fixed">
+        <a class="navbar-brand" href="{% url 'index' %}">Event Advisor</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+          <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link active" href="#">
+              Registration
+            </a>
+            <div class="nav-item dropdown">
+              {% if user.is_authenticated %}
+                <a class="nav-link active dropdown-toggle" href="#" data-toggle="dropdown">
+                  {% if user.first_name %}Hello, {{ user.first_name }}!
+                  {% else %}Hello, {{ user.username }}!{% endif %}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item text-right" href="#">Logout</a>
+                  <a class="dropdown-item text-right" href="#">Change password</a>
+                </div>
+              {% else %}
+                <a class="nav-item nav-link active" href="#">
+                  Sign in
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item text-right" href="#">Login</a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="jumbotron">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </body>
+
+</html>
