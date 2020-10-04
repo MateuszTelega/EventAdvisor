@@ -1,6 +1,6 @@
 from django.urls import path
 from accounts.views import \
-    SubmittableLoginView, SubmittablePasswordChangeView, SuccessMessagedLogoutView, SignUpView, IndexView
+    SubmittableLoginView, SubmittablePasswordChangeView, SuccessMessagedLogoutView, SignUpView
 
 app_name = 'accounts'
 urlpatterns = [
@@ -8,5 +8,4 @@ urlpatterns = [
     path('passwordchange/', SubmittablePasswordChangeView.as_view(), name='password_change'),
     path('logout/', SuccessMessagedLogoutView.as_view(), name='logout'),
     path('signup/', SignUpView.as_view(), name='signup'),
-    path('', IndexView, name='index'),
 ]

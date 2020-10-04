@@ -31,6 +31,3 @@ class SignUpView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('index')
 
-class IndexView:
-    title = 'Welcome to Event Advisor'
-    template_name = 'index.html'
