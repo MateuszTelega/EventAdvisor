@@ -19,21 +19,21 @@
           <span class="navbar-toggler-icon"></span>
         </button>
           <div class="navbar-nav ml-auto">
-            <a class="nav-item nav-link active" href="#">
+            <a class="nav-item nav-link active" href="{% url 'accounts:signup' %}">
               Registration
             </a>
             <div class="nav-item dropdown">
               {% if user.is_authenticated %}
-                <a class="nav-link active dropdown-toggle" href="#" data-toggle="dropdown">
-                  {% if user.first_name %}Hello, {{ user.first_name }}!
-                  {% else %}Hello, {{ user.username }}!{% endif %}
+                <a class="nav-link active dropdown-toggle" href="{% url 'accounts:logout' %}" data-toggle="dropdown">
+                  {% if user.name %}Hello, {{ user.name }}!
+                  {% else %}Hello, {{ user.login_email }}!{% endif %}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item text-right" href="#">Logout</a>
-                  <a class="dropdown-item text-right" href="#">Change password</a>
+                  <a class="dropdown-item text-right" href="{% url 'accounts:logout' %}">Logout</a>
+                  <a class="dropdown-item text-right" href="{% url 'accounts:password_change' %}">Change password</a>
                 </div>
               {% else %}
-                <a class="nav-item nav-link active" href="#">
+                <a class="nav-item nav-link active" href="{% url 'accounts:login' %}">
                   Sign in
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
