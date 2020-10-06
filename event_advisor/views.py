@@ -1,5 +1,5 @@
-from django.views.generic import TemplateView
+from core.views import EventListView
 
 
-class IndexView(TemplateView):
-    template_name = "index.html"
+class IndexView(EventListView):
+    template_name = 'index.html'
