@@ -1,0 +1,1 @@
+[{"model": "accounts.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$216000$8fNr16cwfkF5$4T3XSaDCj+l1do5pWRWcEa0VbO7ZVBmzf8pDlDRSl8A=", "last_login": "2020-10-06T16:31:27.897Z", "login_email": "mat.telega@gmail.com", "name": "Mateusz", "is_organizer": 0, "city": "Gdañsk"}}]

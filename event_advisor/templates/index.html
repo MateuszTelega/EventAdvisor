@@ -1,6 +1,30 @@
 {% extends "base.html" %}
+{% load event_extras %}
 {% block content %}
 
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Let's meet there!...</h1>
+      <p>Find an amazing event you'd like to join and have fun!</p>
+      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      {% for event in object_list %}
+        <div class="col-md-4">
+          <h2>{% event_title_format event %}</h2>
+          <h6>{% event_date_format event %}</h6>
+          <p>{% event_description_format event %}</p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        </div>
+      {% endfor %}
+    </div>
+
+    <hr>
+
+  </div> <!-- /container -->
 
   <nav aria-label="Page navigation example">
     <ul class="pagination">
