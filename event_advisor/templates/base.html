@@ -18,6 +18,21 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
           <span class="navbar-toggler-icon"></span>
         </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/">
+              Home
+            </a>
+            <div class="nav-item dropdown">
+              <a class="nav-link active dropdown-toggle" href="#" data-toggle="dropdown">
+                Events
+              </a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'core:event_create' %}">Add an event!</a>
+              </div>
+            </div>
+          </div>
+
           <div class="navbar-nav ml-auto">
             <a class="nav-item nav-link active" href="{% url 'accounts:signup' %}">
               Registration
