@@ -19,11 +19,6 @@ class FutureDateField(forms.DateField):
         if value < date.today():
             raise ValidationError('Only future dates allowed here.')
 
-    def clean(self, value):
-        result = super().clean(value)
-        pass
-        return date(year=result.year, month=result.month, day=1)
-
 
 class EventForm(forms.ModelForm):
 
