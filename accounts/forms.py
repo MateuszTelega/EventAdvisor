@@ -27,6 +27,3 @@ class SignUpForm(SubmittableForm, UserCreationForm):
         model = User
         fields = ['login_email', 'name', 'city']
 
-    # def save(self, *args, **kwargs):
-    #     user = super().save()
-    #     return user
