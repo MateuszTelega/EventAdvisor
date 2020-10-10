@@ -24,7 +24,7 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = '__all__'
+        exclude = ['users']
 
     title = forms.CharField(validators=[capitalized_validator])
     date_from = FutureDateField(
