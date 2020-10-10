@@ -27,8 +27,8 @@ class EventForm(forms.ModelForm):
         fields = '__all__'
 
     title = forms.CharField(validators=[capitalized_validator])
-    date_from = FutureDateField()
-    date_to = FutureDateField()
+    date_from = FutureDateField(initial=date.today)
+    date_to = FutureDateField(initial=date.today)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -37,6 +37,7 @@ class EventForm(forms.ModelForm):
             'title',
             Row(Column('date_from'), Column('start_time'), Column('date_to'), Column('end_time')),
             'place',
+            'picture',
             'description',
             'event_type',
             'users',
