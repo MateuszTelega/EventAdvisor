@@ -37,10 +37,26 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
     def handle_no_permission(self):
         return redirect('index')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+        return context
+
 
 class EventDetailView(DetailView):
     template_name = 'event_detail.html'
     model = Event
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+        return context
 
 
 class SearchEventView(ListView):
