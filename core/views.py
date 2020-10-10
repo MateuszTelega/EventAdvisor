@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 
 from .models import Event
 from .forms import EventForm
@@ -36,6 +36,11 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
 
     def handle_no_permission(self):
         return redirect('index')
+
+
+class EventDetailView(DetailView):
+    template_name = 'event_detail.html'
+    model = Event
 
 
 class SearchEventView(ListView):
