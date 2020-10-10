@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import User
+import datetime
 
 
 class EventType(models.Model):
@@ -11,8 +12,8 @@ class EventType(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=100)
-    date_from = models.DateTimeField()
-    date_to = models.DateTimeField()
+    date_from = models.DateField()
+    date_to = models.DateField()
     place = models.CharField(max_length=100)
     start_time = models.TimeField()
     end_time = models.TimeField(null=True, blank=True)
@@ -34,3 +35,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user} comment {self.event} at {self.created}"
+
