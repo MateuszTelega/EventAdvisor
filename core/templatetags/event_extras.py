@@ -37,5 +37,15 @@ def event_description_format(event):
 @register.filter
 def attr_as_p(obj, attrname):
     label = escape(attrname.capitalize())
-    value = escape(getattr(obj, attrname))
+    val = getattr(obj, attrname)
+    if val:
+        if attrname == 'start_time':
+            minutes = str(val.minute)
+            if val.minute < 10:
+                minutes = '0' + minutes
+            val = f'{val.hour}:{minutes}'
+    else:
+        val = ''
+
+    value = escape(val)
     return SafeString(f'<p><strong>{label}:</strong> {value}</p>')
