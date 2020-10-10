@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 {% load event_extras %}
-{% block content %}
 
+{% block dropdown %}
+  {% if permission == 1 %}
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="{% url 'core:event_create' %}">Add an event!</a>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
   <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">Let's meet there!...</h1>
@@ -57,5 +65,4 @@
       {% endif %}
     </ul>
   </nav>
-
 {% endblock %}
