@@ -41,3 +41,19 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
 class EventDetailView(DetailView):
     template_name = 'event_detail.html'
     model = Event
+
+
+class SearchEventView(ListView):
+    model = Event
+    template_name = 'search.html'
+    context_object_name = 'all_search_results'
+
+    def get_queryset(self):
+        result = super(SearchEventView, self).get_queryset()
+        query = self.request.GET.get('search')
+        if query:
+            postresult = Event.objects.filter(title__contains=query)
+            result = postresult
+        else:
+            result = None
+        return result
