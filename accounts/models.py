@@ -1,6 +1,7 @@
 from django.db.models import CharField, BooleanField, EmailField
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
+
 class MyUserManager(BaseUserManager):
     def create_user(self, login_email, name, is_organizer, is_staff, password=None):
         if not login_email:

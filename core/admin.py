@@ -1,3 +1,9 @@
 from django.contrib import admin
+from .models import Event, EventType, Comment
+from accounts.models import User
 
-# Register your models here.
+admin.site.register(Event)
+admin.site.register(User)
+admin.site.register(EventType)
+admin.site.register(Comment)
+
