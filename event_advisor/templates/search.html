@@ -6,7 +6,7 @@
         <h2>{% event_title_format event %}</h2>
         <h6>{% event_date_format event %}</h6>
         <p>{% event_description_format event %}</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="{% url 'core:event_detail' event.pk %}" role="button">View details &raquo;</a></p>
     {% empty %}
         <h2>No results found</h2>
     {% endfor %}
