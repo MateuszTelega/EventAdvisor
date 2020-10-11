@@ -1,13 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView
 
-from .models import Event
-from .forms import EventForm
+from .models import Event, Comment
+from .forms import EventForm, CommentForm
 
 
 class EventListView(ListView):
@@ -62,9 +62,22 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
 class EventDetailView(DetailView):
     template_name = 'event_detail.html'
     model = Event
+    form_class = CommentForm
+    success_url = reverse_lazy('index')
+
+    def post(self, request, *args, **kwargs):
+        comment = Comment(comment=self.request.POST.get('comment'),
+                          user_id=self.request.POST.get('user'),
+                          event_id=self.request.POST.get('event'),
+                          )
+        comment.save()
+        return HttpResponseRedirect(self.request.path_info)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        q = {'comments': list(Comment.objects.filter(event=context['event'].id))}
+        context.update(q)
+        context.update({'add_comment': CommentForm()})
         permission = 0
         if not self.request.user.is_anonymous:
             permission = self.request.user.is_organizer

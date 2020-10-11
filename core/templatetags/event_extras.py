@@ -39,7 +39,7 @@ def attr_as_p(obj, attrname):
     label = escape(attrname.capitalize())
     val = getattr(obj, attrname)
     if val:
-        if attrname == 'start_time':
+        if attrname in ['start_time', 'end_time']:
             minutes = str(val.minute)
             if val.minute < 10:
                 minutes = '0' + minutes

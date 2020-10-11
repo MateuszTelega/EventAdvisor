@@ -1,11 +1,10 @@
 import re
 from datetime import date
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Event
+from .models import Event, Comment
 
 
 def capitalized_validator(value: str):
@@ -58,3 +57,10 @@ class EventForm(forms.ModelForm):
         sentences = re.sub(r'\s*\.\s*', '.', initial).split('.')
         cleaned = '. '.join(sentence.capitalize() for sentence in sentences)
         return cleaned
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['user', 'comment', 'event']
+

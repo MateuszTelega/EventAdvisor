@@ -120,7 +120,8 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'accounts.User'
 DATE_INPUT_FORMATS = ['%d-%m-%Y']
-
+MEDIA_ROOT = os.path.join(BASE_DIR)
+MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
