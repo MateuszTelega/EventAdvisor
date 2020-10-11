@@ -24,7 +24,7 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        exclude = ['users']
+        exclude = ['users', 'owner']
 
     title = forms.CharField(validators=[capitalized_validator])
     date_from = FutureDateField(
@@ -49,6 +49,7 @@ class EventForm(forms.ModelForm):
             'description',
             'event_type',
             'users',
+            'owner',
             Submit('submit', 'Submit'),
         )
 

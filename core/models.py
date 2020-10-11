@@ -21,7 +21,8 @@ class Event(models.Model):
     description = models.TextField(max_length=1000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     event_type = models.ForeignKey(EventType, null=True, blank=True, on_delete=models.SET_NULL)
-    users = models.ManyToManyField(User)
+    users = models.ManyToManyField(User, related_name='user', null=True)
+    owner = models.ForeignKey(User, related_name='owner', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f"Event {self.title} starts {self.date_from} in {self.place}. Created {self.created}"

@@ -1,6 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView
 
 from .models import Event
@@ -44,6 +47,16 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
             permission = self.request.user.is_organizer
         context['permission'] = permission
         return context
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(EventCreateView, self).dispatch(*args, **kwargs)
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class EventDetailView(DetailView):
