@@ -53,13 +53,6 @@ class EventDetailView(DetailView):
     form_class = CommentForm
     success_url = reverse_lazy('index')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        q = {'comments': list(Comment.objects.filter(event=context['event'].id))}
-        context.update(q)
-        context.update({'add_comment': CommentForm()})
-        return context
-
     def post(self, request, *args, **kwargs):
         comment = Comment(comment=self.request.POST.get('comment'),
                           user_id=self.request.POST.get('user'),
@@ -70,6 +63,9 @@ class EventDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        q = {'comments': list(Comment.objects.filter(event=context['event'].id))}
+        context.update(q)
+        context.update({'add_comment': CommentForm()})
         permission = 0
         if not self.request.user.is_anonymous:
             permission = self.request.user.is_organizer
