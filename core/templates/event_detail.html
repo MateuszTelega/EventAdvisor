@@ -10,7 +10,9 @@
 {% endblock %}
 
 {% block content %}
+{% if event.picture.url != None %}
     <img src="{{ event.picture.url }}" class="img-fluid" style="margin:10px 50px" alt="no picture">
+{% endif %}
   {{ event|attr_as_p:'title' }}
   {{ event|attr_as_p:'date_from' }}
   {{ event|attr_as_p:'date_to' }}
