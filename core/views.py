@@ -38,6 +38,14 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
     def handle_no_permission(self):
         return redirect('index')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+        return context
+
 
 class EventDetailView(DetailView):
     template_name = 'event_detail.html'
@@ -60,6 +68,14 @@ class EventDetailView(DetailView):
         comment.save()
         return HttpResponseRedirect(self.request.path_info)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+        return context
+
 
 class SearchEventView(ListView):
     model = Event
@@ -75,3 +91,11 @@ class SearchEventView(ListView):
         else:
             result = None
         return result
+
+    def get_context_data(self, *args, object_list=None, **kwargs):
+        context = super().get_context_data(*args, object_list=None, **kwargs)
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+        return context

@@ -23,11 +23,19 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = '__all__'
+        exclude = ['users']
 
     title = forms.CharField(validators=[capitalized_validator])
-    date_from = FutureDateField(initial=date.today)
-    date_to = FutureDateField(initial=date.today)
+    date_from = FutureDateField(
+        initial=date.today,
+        widget=forms.DateInput(format='%d-%m-%Y'),
+        input_formats=('%d-%m-%Y', )
+    )
+    date_to = FutureDateField(
+        initial=date.today,
+        widget=forms.DateInput(format='%d-%m-%Y'),
+        input_formats=('%d-%m-%Y', )
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
