@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 {% load event_extras %}
 
+{% block dropdown %}
+  {% if permission == 1 %}
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="{% url 'core:event_create' %}">Add an event!</a>
+    </div>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
     {% for event in all_search_results %}
         <h2>{% event_title_format event %}</h2>
         <h6>{% event_date_format event %}</h6>
         <p>{% event_description_format event %}</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="{% url 'core:event_detail' event.pk %}" role="button">View details &raquo;</a></p>
     {% empty %}
         <h2>No results found</h2>
     {% endfor %}
