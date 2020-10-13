@@ -2,11 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
-from accounts.models import User
 from .models import Event, Comment
 from .forms import EventForm, CommentForm
 
@@ -73,6 +72,20 @@ class EventUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
     model = Event
     form_class = EventForm
     success_url = reverse_lazy('index')
+
+
+class EventDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
+    template_name = 'event_confirm_delete.html'
+    model = Event
+    success_url = reverse_lazy('index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+        return context
 
 
 class EventDetailView(DetailView):
