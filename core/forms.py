@@ -47,8 +47,6 @@ class EventForm(forms.ModelForm):
             'picture',
             'description',
             'event_type',
-            'users',
-            'owner',
             Submit('submit', 'Submit'),
         )
 
