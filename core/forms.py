@@ -60,5 +60,5 @@ class EventForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['user', 'comment', 'event']
+        fields = ['comment']
 
