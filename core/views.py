@@ -1,9 +1,12 @@
+
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from .models import Event, Comment
 from .forms import EventForm, CommentForm
 
@@ -28,6 +31,14 @@ class OrganizerRequiredMixin(UserPassesTestMixin):
         return self.request.user.is_organizer
 
 
+class OwnerRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        user_id = self.request.user.pk
+        event = Event.objects.get(pk=self.request.path_info.split('/')[-1])
+        event_owner_id = event.owner_id
+        return event_owner_id == user_id
+
+
 class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
     title = 'Add Event'
     template_name = 'form.html'
@@ -37,6 +48,37 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
 
     def handle_no_permission(self):
         return redirect('index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+        return context
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(EventCreateView, self).dispatch(*args, **kwargs)
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class EventUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
+    template_name = 'form.html'
+    model = Event
+    form_class = EventForm
+    success_url = reverse_lazy('index')
+
+
+class EventDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
+    template_name = 'event_confirm_delete.html'
+    model = Event
+    success_url = reverse_lazy('index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -57,10 +99,17 @@ class EventDetailView(DetailView):
         q = {'comments': list(Comment.objects.filter(event=context['event'].id))}
         context.update(q)
         context.update({'add_comment': CommentForm()})
+
         permission = 0
         if not self.request.user.is_anonymous:
             permission = self.request.user.is_organizer
         context['permission'] = permission
+
+        is_owner = False
+        if self.request.user.pk == context['event'].owner_id:
+            is_owner = True
+        context['owner'] = is_owner
+
         return context
 
 
