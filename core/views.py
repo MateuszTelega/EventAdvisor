@@ -1,9 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
-
 from .models import Event, Comment
 from .forms import EventForm, CommentForm
 
@@ -51,15 +51,6 @@ class EventDetailView(DetailView):
     template_name = 'event_detail.html'
     model = Event
     form_class = CommentForm
-    success_url = reverse_lazy('index')
-
-    def post(self, request, *args, **kwargs):
-        comment = Comment(comment=self.request.POST.get('comment'),
-                          user_id=self.request.POST.get('user'),
-                          event_id=self.request.POST.get('event'),
-                          )
-        comment.save()
-        return HttpResponseRedirect(self.request.path_info)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,3 +86,17 @@ class SearchEventView(ListView):
             permission = self.request.user.is_organizer
         context['permission'] = permission
         return context
+
+
+def post_comment(request, *args, **kwargs):
+    comment = Comment(comment=request.POST.get('comment'),
+                      user_id=request.user.id,
+                      event_id=kwargs['event_id'],
+                      )
+    if request.user.id:
+        comment.save()
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    else:
+        messages.error(request, "You need to be login")
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+

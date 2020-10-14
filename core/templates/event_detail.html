@@ -44,8 +44,7 @@
     </div>
   </div>
   {% endfor %}
-
-<form action="" method="post">
+<form action="{% url 'core:event_comments' event.pk %}" method="post">
   {% csrf_token %}
   <div class="form-group">
       {{ add_comment }}
