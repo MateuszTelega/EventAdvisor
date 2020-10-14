@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block dropdown %}
+  {% if permission == 1 %}
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="{% url 'core:event_create' %}">Add an event!</a>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+      {% csrf_token %}
+      <p>
+          Are you sure you want to delete event "{{ object.title }}" from the database?
+      </p>
+      <input type="submit" value="Yes" class="btn btn-danger">
+  </form>
+{% endblock %}

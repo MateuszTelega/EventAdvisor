@@ -10,9 +10,13 @@
 {% endblock %}
 
 {% block content %}
-{% if event.picture.url != None %}
+  {% if owner == True %}
+    <p><span><a class="btn btn-secondary" href="{% url 'core:event_update' event.pk %}" role="button">Edit &raquo;</a>
+    <a class="btn btn-secondary" href="{% url 'core:event_delete' event.pk %}" role="button">Delete &raquo;</a></span></p>
+  {% endif %}
+  {% if event.picture.url != None %}
     <img src="{{ event.picture.url }}" class="img-fluid" style="margin:10px 50px" alt="no picture">
-{% endif %}
+  {% endif %}
   {{ event|attr_as_p:'title' }}
   {{ event|attr_as_p:'date_from' }}
   {{ event|attr_as_p:'date_to' }}
