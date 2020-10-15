@@ -112,6 +112,11 @@ class EventDetailView(DetailView):
             is_owner = True
         context['owner'] = is_owner
 
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
         return context
 
 
