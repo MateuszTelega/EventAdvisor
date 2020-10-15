@@ -20,7 +20,7 @@
 
   <div class="container">
     <div class="row">
-      {% for event in object_list %}
+      {% for event in page_obj %}
         <div class="col-md-4">
           <h2>{% event_title_format event %}</h2>
           <h6>{% event_date_format event %}</h6>

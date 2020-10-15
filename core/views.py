@@ -14,6 +14,7 @@ from .forms import EventForm, CommentForm
 
 class EventListView(ListView):
     model = Event
+    paginate_by = 3
 
     def get_queryset(self):
         return super().get_queryset().filter(date_to__gte=date.today()).order_by('date_from', 'start_time')
