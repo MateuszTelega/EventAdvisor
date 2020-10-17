@@ -10,6 +10,8 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from .models import Event, Comment
 from .forms import EventForm, CommentForm
+from .filters import EventFilter
+from django_filters.views import FilterView
 
 
 class OrganizerRequiredMixin(UserPassesTestMixin):
@@ -44,6 +46,8 @@ class EventListView(ListView):
         if self.request.user.is_authenticated:
             is_logged_in = True
         context['logged_in'] = is_logged_in
+
+        context['filter'] = EventFilter(self.request.GET, queryset=self.get_queryset())
 
         return context
 
@@ -214,6 +218,30 @@ class SearchEventView(ListView):
         return context
 
 
+class EventFilterView(FilterView):
+    model = Event
+
+    def get_queryset(self):
+        super().get_queryset()
+
+    def get_context_data(self, *args, object_list=None, **kwargs):
+        context = super().get_context_data(*args, object_list=None, **kwargs)
+
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
+        context['filter'] = EventFilter(self.request.GET, queryset=self.get_queryset())
+
+        return context
+
+
 def post_comment(request, *args, **kwargs):
     comment = Comment(comment=request.POST.get('comment'),
                       user_id=request.user.id,
@@ -225,4 +253,5 @@ def post_comment(request, *args, **kwargs):
     else:
         messages.error(request, "You need to be login")
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
 

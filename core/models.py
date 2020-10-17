@@ -36,3 +36,4 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.user} comment {self.event} at {self.created}"
 
+
