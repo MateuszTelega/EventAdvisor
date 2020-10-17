@@ -11,8 +11,8 @@
 
 {% block content %}
   {% if owner == True %}
-    <p><span><a class="btn btn-secondary" href="{% url 'core:event_update' event.pk %}" role="button">Edit &raquo;</a>
-    <a class="btn btn-secondary" href="{% url 'core:event_delete' event.pk %}" role="button">Delete &raquo;</a></span></p>
+    <p><span><a class="btn btn-warning" href="{% url 'core:event_update' event.pk %}" role="button">Edit &raquo;</a>
+    <a class="btn btn-danger" href="{% url 'core:event_delete' event.pk %}" role="button">Delete &raquo;</a></span></p>
   {% endif %}
   {% if event.picture.url != None %}
     <img src="{{ event.picture.url }}" class="img-fluid" style="margin:10px 50px" alt="no picture">
@@ -25,6 +25,31 @@
   {{ event|attr_as_p:'end_time' }}
   {{ event|attr_as_p:'description' }}
   {{ event|attr_as_p:'event_type' }}
+
+  <br>
+
+  {% if logged_in == 1 and subscribed == False %}
+    <p><strong>You are still not subscribed for this event...</strong></p>
+    <form action="{% url 'core:event_detail' event.pk %}" method="post">
+      {% csrf_token %}
+      <p>
+        <button type='submit' class="btn btn-success">Subscribe &raquo; </button>
+      </p>
+    </form>
+    <p>People attending the event: {{ users_list }} </p>
+  {% endif %}
+  {% if logged_in == 1 and subscribed == True %}
+    <p><strong>You are already subscribed for this event! Great! Enjoy!</strong></p>
+    <form action="{% url 'core:event_detail' event.pk %}" method="post">
+      {% csrf_token %}
+      <p>
+        <button type='submit' class="btn btn-success">Unubscribe &raquo; </button>
+      </p>
+    </form>
+    <p>People attending the event: {{ users_list }} </p>
+  {% endif %}
+  <br>
+
   <p>Comments section:</p>
 
   {% for result in comments %}
@@ -53,7 +78,7 @@
   <div class="form-group">
       {{ add_comment }}
   </div>
-  <input type="submit" value="Submit" class="btn-success">
+  <input type="submit" value="Submit &raquo;" class="btn btn-success">
 </form>
 
 
