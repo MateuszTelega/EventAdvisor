@@ -123,7 +123,8 @@ class EventDetailView(DetailView):
     def post(self, request, pk):
         event = self.model.objects.get(pk=pk)
         user_subscribing = self.request.user
-        print(event)
+        event.users.add(user_subscribing)
+        event.save()
         return HttpResponseRedirect(reverse('core:event_detail', args=(pk,)))
 
 
