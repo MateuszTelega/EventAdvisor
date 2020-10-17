@@ -11,6 +11,8 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from .models import Event, Comment
 from .forms import EventForm, CommentForm
+from .filters import EventFilter
+from django_filters.views import FilterView
 
 
 class EventListView(ListView):
@@ -26,6 +28,7 @@ class EventListView(ListView):
         if not self.request.user.is_anonymous:
             permission = self.request.user.is_organizer
         context['permission'] = permission
+        context['filter'] = EventFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
 
@@ -177,4 +180,5 @@ def post_comment(request, *args, **kwargs):
     else:
         messages.error(request, "You need to be login")
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
 
