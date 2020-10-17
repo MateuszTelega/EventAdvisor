@@ -53,11 +53,12 @@ class EventMyView(LoginRequiredMixin, EventListView):
 
     def get_queryset(self):
         user = self.request.user
-        user_events = self.model.objects.filter(users__contains=user)
+        # user_events = self.model.objects.filter(users__contains=user)
+        user_events = self.model.objects.filter(users=user)
         print(user_events)
         #event.users.all():
 
-        return super().get_queryset().filter(users=user.pk).order_by('date_from', 'start_time')
+        return super().get_queryset().filter(users=user).order_by('date_from', 'start_time')
 
 
 class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):

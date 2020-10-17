@@ -11,18 +11,25 @@
       {% block scripts %}{% bootstrap_javascript jquery='full' %}{% endblock %}
   </head>
 
+   <style>
+  body {
+  background-image: url("/media/trawnik.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  }
+
+  </style>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container fixed">
-        <a class="navbar-brand" href="{% url 'index' %}">Event Advisor</a>
+       <a class="navbar-brand" href="{% url 'index' %}">
+          <img src="/media/logo.png" style="width:400px; height:40px" alt="Event Advisor"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
           <span class="navbar-toggler-icon"></span>
         </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/">
-              Home
-            </a>
             <div class="nav-item dropdown">
               <a class="nav-link active dropdown-toggle" href="#" data-toggle="dropdown">
                 Events
