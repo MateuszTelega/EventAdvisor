@@ -25,13 +25,28 @@
   {{ event|attr_as_p:'end_time' }}
   {{ event|attr_as_p:'description' }}
   {{ event|attr_as_p:'event_type' }}
-  {% if logged_in == 1 %}
+
+  <br>
+
+  {% if logged_in == 1 and subscribed == False %}
+    <p><strong>You are still not subscribed for this event...</strong></p>
     <form action="{% url 'core:event_detail' event.pk %}" method="post">
       {% csrf_token %}
       <p>
         <button type='submit' class="btn btn-success">Subscribe &raquo; </button>
       </p>
     </form>
+    <p>People attending the event: {{ users_list }} </p>
+  {% endif %}
+  {% if logged_in == 1 and subscribed == True %}
+    <p><strong>You are already subscribed for this event! Great! Enjoy!</strong></p>
+    <form action="{% url 'core:event_detail' event.pk %}" method="post">
+      {% csrf_token %}
+      <p>
+        <button type='submit' class="btn btn-success">Unubscribe &raquo; </button>
+      </p>
+    </form>
+    <p>People attending the event: {{ users_list }} </p>
   {% endif %}
   <br>
 
