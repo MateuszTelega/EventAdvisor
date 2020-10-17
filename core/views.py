@@ -52,17 +52,31 @@ class EventListView(ListView):
         return context
 
 
-class EventMyView(LoginRequiredMixin, EventListView):
+class EventMyView(LoginRequiredMixin, ListView):
+    model = Event
+    paginate_by = 3
     template_name = 'index.html'
 
     def get_queryset(self):
         user = self.request.user
-        # user_events = self.model.objects.filter(users__contains=user)
-        user_events = self.model.objects.filter(users=user)
-        print(user_events)
-        #event.users.all():
-
         return super().get_queryset().filter(users=user).order_by('date_from', 'start_time')
+
+    def get_context_data(self, *args, object_list=None, **kwargs):
+        context = super().get_context_data(*args, object_list=None, **kwargs)
+
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
+        context['filter'] = EventFilter(self.request.GET, queryset=self.get_queryset())
+
+        return context
 
 
 class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
@@ -211,10 +225,17 @@ class SearchEventView(ListView):
 
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super().get_context_data(*args, object_list=None, **kwargs)
+
         permission = 0
         if not self.request.user.is_anonymous:
             permission = self.request.user.is_organizer
         context['permission'] = permission
+
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
         return context
 
 
