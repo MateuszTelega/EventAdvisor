@@ -17,12 +17,10 @@
   {% endif %}
   {% if event.picture.url != None %}
     <img src="{{ event.picture.url }}" class="img-fluid" alt="no picture"
-         style="margin:10px 50px;width:100%;max-width:500px;height:100%;max-height:400px;">
+         style="margin:10px 50px;max-width:400px;width:100%;max-height:300px;height:100%;">
   {% endif %}
-    <div class="event-title borderhead">
-    <h2>
+    <div class="event-title borderhead" style="font-family:'Verdana';font-size:30px;">
         <b>{{ event.title }}</b>
-    </h2>
     </div>
     <style type="text/css">
   body {
@@ -43,7 +41,8 @@
   p.desc {
   overflow-wrap: break-word;
   text-align: justify;
-  padding: 5px;
+  line-height: 1.6;
+  font-family: "Helvetica", Times, serif;
   }
 
   p.titles {
@@ -74,13 +73,13 @@
   </table>
   <div class="line">
       <p class="titles"><b>Location:</b><br></p></div>
-      <h6> {{ event.place }}</h6>
+      <p class="desc"> {{ event.place }}</p>
   <div class="line">
       <p class="titles"><b>Description:</b></p></div>
     <p class="desc">{{ event.description }}</p>
   <div class="line">
       <p class="titles"><b>Event type:</b><br></p></div>
-    <h6> {{ event.event_type }} </h6>
+    <p class="desc"> {{ event.event_type }} </p>
 
   {% for result in comments %}
   <div class="container">
