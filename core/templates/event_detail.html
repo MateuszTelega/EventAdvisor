@@ -26,7 +26,12 @@
   {{ event|attr_as_p:'description' }}
   {{ event|attr_as_p:'event_type' }}
   {% if logged_in == 1 %}
-    <p><a class="btn btn-success" href="#" role="button">Subscribe &raquo;</a></p>
+    <form action="{% url 'core:event_detail' event.pk %}" method="post">
+      {% csrf_token %}
+      <p>
+        <button type='submit' class="btn btn-success">Subscribe &raquo; </button>
+      </p>
+    </form>
   {% endif %}
   <br>
 

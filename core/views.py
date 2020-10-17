@@ -1,11 +1,12 @@
 from datetime import date
 
+from django.conf.urls import url
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from .models import Event, Comment
@@ -118,6 +119,12 @@ class EventDetailView(DetailView):
         context['logged_in'] = is_logged_in
 
         return context
+
+    def post(self, request, pk):
+        event = self.model.objects.get(pk=pk)
+        user_subscribing = self.request.user
+        print(event)
+        return HttpResponseRedirect(reverse('core:event_detail', args=(pk,)))
 
 
 class SearchEventView(ListView):
