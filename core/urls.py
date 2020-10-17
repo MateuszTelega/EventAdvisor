@@ -11,5 +11,5 @@ urlpatterns = [
     path('event/delete/<pk>', EventDeleteView.as_view(), name='event_delete'),
     path('event/search', SearchEventView.as_view(), name='event_search'),
     path('event/comment/<event_id>', post_comment, name='event_comments'),
-    path('event/filter', FilterView.as_view(filterset_class=EventFilter, template_name='filter.html'), name='event_filter')
+    path('event/filter', FilterView.as_view(filterset_class=EventFilter, template_name='filter.html'), name='event_filter'),
 ]

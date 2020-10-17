@@ -11,11 +11,22 @@
 {% endblock %}
 
 {% block content %}
+  <style type="text/css">
+  .display-3 {
+  font-family: 'Lucida Sans Unicode';
+  font-size: 24px;
+  }
+
+  .container {
+  font-family: 'Lucida Sans Unicode';
+  font-size: 14px;
+  }
+  </style>
   <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">Let's meet there!...</h1>
       <p>Find an amazing event you'd like to join and have fun!</p>
-      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      <p><a class="btn btn-primary btn-lg" href="{% url 'about_us' %}" role="button">About us &raquo;</a></p>
     </div>
   </div>
 
@@ -24,7 +35,7 @@
     <div class="row">
       {% for event in page_obj %}
         <div class="col-md-4">
-          <h2>{% event_title_format event %}</h2>
+          <h1 class="display-3">{% event_title_format event %}</h1>
           <h6>{% event_date_format event %}</h6>
           <p>{% event_description_format event %}</p>
           <p><a class="btn btn-secondary" href="{% url 'core:event_detail' event.pk %}" role="button">View details &raquo;</a></p>
@@ -34,7 +45,7 @@
 
     <hr>
 
-  </div> <!-- /container -->
+  </div>
 
   <nav aria-label="Page navigation example">
     <ul class="pagination">

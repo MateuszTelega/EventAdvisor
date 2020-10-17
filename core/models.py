@@ -16,11 +16,11 @@ class Event(models.Model):
     place = models.CharField(max_length=100)
     start_time = models.TimeField()
     end_time = models.TimeField(null=True, blank=True)
-    picture = models.ImageField(upload_to="media", null=True, blank=True)
+    picture = models.ImageField(upload_to="uploaded", null=True, blank=True)
     description = models.TextField(max_length=1000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     event_type = models.ForeignKey(EventType, null=True, blank=True, on_delete=models.SET_NULL)
-    users = models.ManyToManyField(User, related_name='user')
+    users = models.ManyToManyField(User, related_name='users')
     owner = models.ForeignKey(User, related_name='owner', on_delete=models.CASCADE, null=True)
 
     def __str__(self):

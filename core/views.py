@@ -1,11 +1,12 @@
 from datetime import date
 
+from django.conf.urls import url
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from .models import Event, Comment
@@ -115,7 +116,33 @@ class EventDetailView(DetailView):
             is_owner = True
         context['owner'] = is_owner
 
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
+        user = self.request.user
+        event = self.model.objects.get(pk=context['event'].id)
+
+        is_subscribed = False
+        if is_logged_in and user in event.users.all():
+            is_subscribed = True
+        context['subscribed'] = is_subscribed
+        context['users_list'] = ', '.join([user.name for user in event.users.all()])
+
         return context
+
+    def post(self, request, pk):
+        event = self.model.objects.get(pk=pk)
+        user_subscribing = self.request.user
+
+        if user_subscribing not in event.users.all():
+            event.users.add(user_subscribing)
+        else:
+            event.users.remove(user_subscribing)
+        event.save()
+
+        return HttpResponseRedirect(reverse('core:event_detail', args=(pk,)))
 
 
 class SearchEventView(ListView):
