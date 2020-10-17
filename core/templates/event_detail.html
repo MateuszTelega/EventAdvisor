@@ -3,11 +3,12 @@
 
 {% block dropdown %}
   {% if permission == 1 %}
-    <div class="dropdown-menu">
+    <div class="dropdown-menu" xmlns="http://www.w3.org/1999/html">
       <a class="dropdown-item" href="{% url 'core:event_create' %}">Add an event!</a>
     </div>
   {% endif %}
 {% endblock %}
+
 
 {% block content %}
   {% if owner == True %}
@@ -15,18 +16,70 @@
     <a class="btn btn-danger" href="{% url 'core:event_delete' event.pk %}" role="button">Delete &raquo;</a></span></p>
   {% endif %}
   {% if event.picture.url != None %}
-    <img src="{{ event.picture.url }}" class="img-fluid" style="margin:10px 50px" alt="no picture">
+    <img src="{{ event.picture.url }}" class="img-fluid" alt="no picture"
+         style="margin:10px 50px;max-width:400px;width:100%;max-height:300px;height:100%;">
   {% endif %}
-  {{ event|attr_as_p:'title' }}
-  {{ event|attr_as_p:'date_from' }}
-  {{ event|attr_as_p:'date_to' }}
-  {{ event|attr_as_p:'place' }}
-  {{ event|attr_as_p:'start_time' }}
-  {{ event|attr_as_p:'end_time' }}
-  {{ event|attr_as_p:'description' }}
-  {{ event|attr_as_p:'event_type' }}
+    <div class="event-title borderhead" style="font-family:'Verdana';font-size:30px;">
+        <b>{{ event.title }}</b>
+    </div>
+    <style type="text/css">
+  body {
+  background-image: url("/media/trawnik.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  }
 
-  <br>
+  table {
+  border-collapse: separate;
+  border-spacing: 60px 0;
+  padding: 10px;
+  background: linear-gradient(to top, transparent, white),
+  url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS7tbypZjojr4Vq7c_54u2rdFtGiUszLQFHSg&usqp=CAU");
+  }
+
+  p.desc {
+  overflow-wrap: break-word;
+  text-align: justify;
+  line-height: 1.6;
+  font-family: "Helvetica", Times, serif;
+  }
+
+  p.titles {
+  text-transform: uppercase;
+  font-family: 'Lucida Sans Unicode';
+  font-size: 16px;
+  letter-spacing: 1px;
+  padding: 5px;
+  }
+
+  .line {
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #99004d;
+    z-index: 1;
+    }
+    </style>
+  <table>
+    <tr>
+    <th>Start date: {{  event.date_from }}</th>
+    <th>End date: {{ event.date_to }}</th>
+    </tr>
+    <tr>
+      <td>Start time: {{ event.start_time|time:"H:i" }}</td>
+      <td>End time: {{ event.end_time|time:"H:i" }}</td>
+    </tr>
+  </table>
+  <div class="line">
+      <p class="titles"><b>Location:</b><br></p></div>
+      <p class="desc"> {{ event.place }}</p>
+  <div class="line">
+      <p class="titles"><b>Description:</b></p></div>
+    <p class="desc">{{ event.description }}</p>
+  <div class="line">
+      <p class="titles"><b>Event type:</b><br></p></div>
+    <p class="desc"> {{ event.event_type }} </p>
 
   {% if logged_in == 1 and subscribed == False %}
     <p><strong>You are still not subscribed for this event...</strong></p>
@@ -49,8 +102,8 @@
     <p>People attending the event: {{ users_list }} </p>
   {% endif %}
   <br>
-
-  <p>Comments section:</p>
+  <div class="line">
+    <p class="titles"><b>Comments section:</b></p></div>
 
   {% for result in comments %}
   <div class="container">
@@ -80,6 +133,6 @@
   </div>
   <input type="submit" value="Submit &raquo;" class="btn btn-success">
 </form>
-
+</body>
 
 {% endblock %}
