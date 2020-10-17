@@ -1,3 +1,4 @@
+from datetime import date
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -13,9 +14,10 @@ from .forms import EventForm, CommentForm
 
 class EventListView(ListView):
     model = Event
+    paginate_by = 3
 
     def get_queryset(self):
-        return super().get_queryset().order_by('date_from', 'start_time')
+        return super().get_queryset().filter(date_to__gte=date.today()).order_by('date_from', 'start_time')
 
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super().get_context_data(*args, object_list=None, **kwargs)
