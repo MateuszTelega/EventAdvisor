@@ -272,12 +272,19 @@ class EventFilterView(FilterView):
 
 
 def post_comment(request, *args, **kwargs):
-    r = requests.post('http://agnesgru.pythonanywhere.com', data={'wpisz_opinie': request.POST.get('comment')}).json()
+    try:
+        r = requests.post('http://agnesgru.pythonanywhere.com',
+                          data={'wpisz_opinie': request.POST.get('comment')}).json()
+        opinion = r['result_int']
+    except Exception:
+        opinion = None
+
     comment = Comment(comment=request.POST.get('comment'),
                       user_id=request.user.id,
                       event_id=kwargs['event_id'],
-                      opinion=r['result_int'],
+                      opinion=opinion,
                       )
+
     if request.user.id:
         comment.save()
         return HttpResponseRedirect(request.META['HTTP_REFERER'])

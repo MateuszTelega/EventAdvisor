@@ -139,8 +139,10 @@
                     <p class="agnes">AGnesgru comment system platform decide that this comment is:
                         {% if result.opinion == 0 %}
                             Negative
-                        {% else %}
+                        {% elif result.opinion == 1 %}
                             Positive
+                        {% else %}
+                            No opinion
                         {% endif %}
                     </p>
                 </div>
