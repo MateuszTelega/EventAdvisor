@@ -19,8 +19,9 @@
 {% block content %}
   <style type="text/css">
   .display-1 {
-  font-family: 'Lucida Sans Unicode';
-  font-size: 36px;
+  font-family: 'Verdana' bold;
+  font-size: 42px;
+  color: white;
   }
 
   .display-3 {
@@ -31,19 +32,34 @@
   .container {
   font-family: 'Lucida Sans Unicode';
   font-size: 14px;
+  text-shadow: 1px 1px
+  }
+
+  .about_us {
+  background-image: url("/media/cheer-3.jpg");
+  background-repeat: no-repeat;
+  font-family: 'Verdana', bold;
+  font-size: 26px;
+  position: relative;
+  text-align: center;
+  color: #00ff00;
+  text-shadow: 2px 2px #ff0000
   }
 
   .my_events {
   font-family: 'Lucida Sans Unicode';
   font-size: 24px;
   font-weight: bold;
+  text-shadow: 1px 1px #ff0000
   }
   </style>
   <div class="jumbotron">
-    <div class="container">
+    <div class="about_us">
+
       <h1 class="display-1">Let's meet there!...</h1>
       <p>Find an amazing event you'd like to join and have fun!</p>
       <p><a class="btn btn-primary btn-lg" href="{% url 'about_us' %}" role="button">About us &raquo;</a></p>
+
     </div>
   </div>
 
