@@ -18,6 +18,11 @@
 
 {% block content %}
   <style type="text/css">
+  .display-1 {
+  font-family: 'Lucida Sans Unicode';
+  font-size: 36px;
+  }
+
   .display-3 {
   font-family: 'Lucida Sans Unicode';
   font-size: 24px;
@@ -27,15 +32,26 @@
   font-family: 'Lucida Sans Unicode';
   font-size: 14px;
   }
+
+  .my_events {
+  font-family: 'Lucida Sans Unicode';
+  font-size: 24px;
+  font-weight: bold;
+  }
   </style>
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Let's meet there!...</h1>
+      <h1 class="display-1">Let's meet there!...</h1>
       <p>Find an amazing event you'd like to join and have fun!</p>
       <p><a class="btn btn-primary btn-lg" href="{% url 'about_us' %}" role="button">About us &raquo;</a></p>
     </div>
   </div>
 
+
+{% if my_events == True %}
+  <h1 class="my_events">Here you have all your events...</h1>
+  <br>
+{% endif %}
 
   <div class="container">
     <div class="row">
