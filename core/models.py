@@ -28,6 +28,7 @@ class Event(models.Model):
 
 
 class Comment(models.Model):
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     comment = models.TextField(max_length=500, null=False, blank=True)
