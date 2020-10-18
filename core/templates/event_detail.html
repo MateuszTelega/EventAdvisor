@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 {% load event_extras %}
+{% load static %}
 
 {% block dropdown %}
-  {% if permission == 1 %}
-    <div class="dropdown-menu" xmlns="http://www.w3.org/1999/html">
-      <a class="dropdown-item" href="{% url 'core:event_create' %}">Add an event!</a>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="{% url 'index' %}">Home</a>
+      {% if logged_in == True %}
+        <a class="dropdown-item" href="{% url 'core:event_user_section' %}">My events!</a>
+      {% else %}
+        <a class="dropdown-item" href="{% url 'accounts:login' %}">Log in firstly!</a>
+      {% endif %}
+      {% if permission == 1 %}
+        <a class="dropdown-item" href="{% url 'core:event_create' %}">Add an event!</a>
+      {% endif %}
     </div>
-  {% endif %}
 {% endblock %}
-
 
 {% block content %}
   {% if owner == True %}
@@ -102,6 +108,10 @@
     <p>People attending the event: {{ users_list }} </p>
   {% endif %}
   <br>
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+{% load ratings %}
+{% ratings object %}
   <div class="line">
     <p class="titles"><b>Comments section:</b></p></div>
 

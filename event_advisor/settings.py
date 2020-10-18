@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'accounts',
     'crispy_forms',
     'bootstrap4',
+    'django_filters',
+    'bootstrapform',
+    'star_ratings',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +134,4 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+STAR_RATINGS_RERATE = False

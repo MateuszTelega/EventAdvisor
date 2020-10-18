@@ -3,3 +3,6 @@ django-crispy-forms==1.9.2
 django-bootstrap4==2.2.0
 django-model-utils==4.0.0
 PIllow==7.2.0
+django-filter==2.4.0
+django-bootstrap-form
+django-star-ratings==0.9.1

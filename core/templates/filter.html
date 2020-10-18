@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% load event_extras %}
 
 {% block dropdown %}
     <div class="dropdown-menu">
@@ -15,7 +15,13 @@
     </div>
 {% endblock %}
 
-
 {% block content %}
-    {% crispy form %}
+    {% for event in filter.qs %}
+        <h2>{% event_title_format event %}</h2>
+        <h6>{% event_date_format event %}</h6>
+        <p>{% event_description_format event %}</p>
+        <p><a class="btn btn-secondary" href="{% url 'core:event_detail' event.pk %}" role="button">View details &raquo;</a></p>
+    {% empty %}
+        <h2>No results found</h2>
+    {% endfor %}
 {% endblock %}

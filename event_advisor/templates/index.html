@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 {% load event_extras %}
 
+
 {% block dropdown %}
-  {% if permission == 1 %}
     <div class="dropdown-menu">
-      <a class="dropdown-item" href="{% url 'core:event_create' %}">Add an event!</a>
+        <a class="dropdown-item" href="{% url 'index' %}">Home</a>
+      {% if logged_in == True %}
+        <a class="dropdown-item" href="{% url 'core:event_user_section' %}">My events!</a>
+      {% else %}
+        <a class="dropdown-item" href="{% url 'accounts:login' %}">Log in firstly!</a>
+      {% endif %}
+      {% if permission == 1 %}
+        <a class="dropdown-item" href="{% url 'core:event_create' %}">Add an event!</a>
+      {% endif %}
     </div>
-  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -28,6 +35,7 @@
       <p><a class="btn btn-primary btn-lg" href="{% url 'about_us' %}" role="button">About us &raquo;</a></p>
     </div>
   </div>
+
 
   <div class="container">
     <div class="row">
