@@ -24,7 +24,7 @@
   color: white;
   }
 
-  .display-3 {
+  .display-2 {
   font-family: 'Lucida Sans Unicode';
   font-size: 24px;
   }
@@ -73,7 +73,7 @@
     <div class="row">
       {% for event in page_obj %}
         <div class="col-md-4">
-          <h1 class="display-3">{% event_title_format event %}</h1>
+          <h1 class="display-2">{% event_title_format event %}</h1>
           <h6>{% event_date_format event %}</h6>
           <p>{% event_description_format event %}</p>
           <p><a class="btn btn-secondary" href="{% url 'core:event_detail' event.pk %}" role="button">View details &raquo;</a></p>
