@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load event_extras %}
+{% load static %}
 
 {% block dropdown %}
     <div class="dropdown-menu">
@@ -107,6 +108,10 @@
     <p>People attending the event: {{ users_list }} </p>
   {% endif %}
   <br>
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+{% load ratings %}
+{% ratings object %}
   <div class="line">
     <p class="titles"><b>Comments section:</b></p></div>
 
