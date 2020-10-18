@@ -33,6 +33,7 @@ class Comment(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     comment = models.TextField(max_length=500, null=False, blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    opinion = models.IntegerField(null=True)
 
     def __str__(self):
         return f"{self.user} comment {self.event} at {self.created}"

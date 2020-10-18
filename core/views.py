@@ -1,4 +1,6 @@
 from datetime import date
+
+import requests
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -270,9 +272,11 @@ class EventFilterView(FilterView):
 
 
 def post_comment(request, *args, **kwargs):
+    r = requests.post('http://agnesgru.pythonanywhere.com', data={'wpisz_opinie': request.POST.get('comment')}).json()
     comment = Comment(comment=request.POST.get('comment'),
                       user_id=request.user.id,
                       event_id=kwargs['event_id'],
+                      opinion=r['result_int'],
                       )
     if request.user.id:
         comment.save()

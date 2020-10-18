@@ -67,6 +67,11 @@
     background: #99004d;
     z-index: 1;
     }
+
+  .agnes {
+      color: #777777;
+      font-size: x-small;
+  }
     </style>
   <table>
     <tr>
@@ -131,6 +136,13 @@
                 </div>
                 <div class="post-description">
                     <p>{{ result.comment }}</p>
+                    <p class="agnes">AGnesgru comment system platform decide that this comment is:
+                        {% if result.opinion == 0 %}
+                            Negative
+                        {% else %}
+                            Positive
+                        {% endif %}
+                    </p>
                 </div>
             </div>
         </div>
