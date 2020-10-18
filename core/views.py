@@ -1,5 +1,5 @@
 from datetime import date
-
+from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
@@ -221,7 +221,9 @@ class SearchEventView(ListView):
         result = super(SearchEventView, self).get_queryset()
         query = self.request.GET.get('search')
         if query:
-            postresult = Event.objects.filter(title__contains=query)
+            lookups = Q(title__contains=query) | Q(owner__name__icontains=query) | Q(description__icontains=query)\
+                      | Q(place__icontains=query) | Q(event_type__name__icontains=query)
+            postresult = Event.objects.filter(lookups)
             result = postresult
         else:
             result = None
