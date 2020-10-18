@@ -37,6 +37,8 @@ class EventListView(ListView):
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super().get_context_data(*args, object_list=None, **kwargs)
 
+        context['my_events'] = False
+
         permission = 0
         if not self.request.user.is_anonymous:
             permission = self.request.user.is_organizer
@@ -63,6 +65,8 @@ class EventMyView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super().get_context_data(*args, object_list=None, **kwargs)
+
+        context['my_events'] = True
 
         permission = 0
         if not self.request.user.is_anonymous:
