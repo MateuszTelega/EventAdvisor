@@ -1,6 +1,5 @@
 from datetime import date
 
-from django.conf.urls import url
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
@@ -13,23 +12,6 @@ from .models import Event, Comment
 from .forms import EventForm, CommentForm
 from .filters import EventFilter
 from django_filters.views import FilterView
-
-
-class EventListView(ListView):
-    model = Event
-    paginate_by = 3
-
-    def get_queryset(self):
-        return super().get_queryset().filter(date_to__gte=date.today()).order_by('date_from', 'start_time')
-
-    def get_context_data(self, *args, object_list=None, **kwargs):
-        context = super().get_context_data(*args, object_list=None, **kwargs)
-        permission = 0
-        if not self.request.user.is_anonymous:
-            permission = self.request.user.is_organizer
-        context['permission'] = permission
-        context['filter'] = EventFilter(self.request.GET, queryset=self.get_queryset())
-        return context
 
 
 class OrganizerRequiredMixin(UserPassesTestMixin):
@@ -45,6 +27,58 @@ class OwnerRequiredMixin(UserPassesTestMixin):
         return event_owner_id == user_id
 
 
+class EventListView(ListView):
+    model = Event
+    paginate_by = 3
+
+    def get_queryset(self):
+        return super().get_queryset().filter(date_to__gte=date.today()).order_by('date_from', 'start_time')
+
+    def get_context_data(self, *args, object_list=None, **kwargs):
+        context = super().get_context_data(*args, object_list=None, **kwargs)
+
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
+        context['filter'] = EventFilter(self.request.GET, queryset=self.get_queryset())
+
+        return context
+
+
+class EventMyView(LoginRequiredMixin, ListView):
+    model = Event
+    paginate_by = 3
+    template_name = 'index.html'
+
+    def get_queryset(self):
+        user = self.request.user
+        return super().get_queryset().filter(users=user).order_by('date_from', 'start_time')
+
+    def get_context_data(self, *args, object_list=None, **kwargs):
+        context = super().get_context_data(*args, object_list=None, **kwargs)
+
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
+        context['filter'] = EventFilter(self.request.GET, queryset=self.get_queryset())
+
+        return context
+
+
 class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
     title = 'Add Event'
     template_name = 'form.html'
@@ -57,10 +91,17 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         permission = 0
         if not self.request.user.is_anonymous:
             permission = self.request.user.is_organizer
         context['permission'] = permission
+
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
         return context
 
     @method_decorator(login_required)
@@ -80,6 +121,21 @@ class EventUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
     form_class = EventForm
     success_url = reverse_lazy('index')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
+        return context
+
 
 class EventDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
     template_name = 'event_confirm_delete.html'
@@ -88,10 +144,17 @@ class EventDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         permission = 0
         if not self.request.user.is_anonymous:
             permission = self.request.user.is_organizer
         context['permission'] = permission
+
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
         return context
 
 
@@ -162,10 +225,41 @@ class SearchEventView(ListView):
 
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super().get_context_data(*args, object_list=None, **kwargs)
+
         permission = 0
         if not self.request.user.is_anonymous:
             permission = self.request.user.is_organizer
         context['permission'] = permission
+
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
+        return context
+
+
+class EventFilterView(FilterView):
+    model = Event
+
+    def get_queryset(self):
+        super().get_queryset()
+
+    def get_context_data(self, *args, object_list=None, **kwargs):
+        context = super().get_context_data(*args, object_list=None, **kwargs)
+
+        permission = 0
+        if not self.request.user.is_anonymous:
+            permission = self.request.user.is_organizer
+        context['permission'] = permission
+
+        is_logged_in = False
+        if self.request.user.is_authenticated:
+            is_logged_in = True
+        context['logged_in'] = is_logged_in
+
+        context['filter'] = EventFilter(self.request.GET, queryset=self.get_queryset())
+
         return context
 
 

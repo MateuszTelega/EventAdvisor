@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import EventCreateView, EventUpdateView, EventDetailView, EventDeleteView, SearchEventView, post_comment, FilterView
+from .views import EventCreateView, EventUpdateView, EventDetailView, EventDeleteView, \
+    SearchEventView, EventMyView, EventFilterView, post_comment
 from .filters import EventFilter
 
 
@@ -11,5 +12,7 @@ urlpatterns = [
     path('event/delete/<pk>', EventDeleteView.as_view(), name='event_delete'),
     path('event/search', SearchEventView.as_view(), name='event_search'),
     path('event/comment/<event_id>', post_comment, name='event_comments'),
-    path('event/filter', FilterView.as_view(filterset_class=EventFilter, template_name='filter.html'), name='event_filter'),
+    path('event/my', EventMyView.as_view(), name='event_user_section'),
+    path('event/filter', EventFilterView.as_view(filterset_class=EventFilter, template_name='filter.html'),
+         name='event_filter'),
 ]
