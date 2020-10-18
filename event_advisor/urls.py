@@ -19,6 +19,7 @@ from .views import IndexView
 from . import settings
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +27,7 @@ urlpatterns = [
     path('about_us', IndexView.as_view(), name='about_us'),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('core/', include('core.urls', namespace='core')),
+    url(r'^ratings/', include(('star_ratings.urls', 'ratings'), namespace='ratings')),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
