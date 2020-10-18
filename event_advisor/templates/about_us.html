@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load bootstrap4 %}
 
 {% block dropdown %}
     <div class="dropdown-menu">
@@ -14,5 +15,139 @@
     </div>
 {% endblock %}
 
+{% block content %}
+<head>
+  <meta charset="utf-8">
+  <style>
+  * {
+box-sizing:
+border-box;
+}
+body {
+margin: 0;
+}
+.container-width {
+width:90%;
+max-width:1150px;
+margin:0 auto;
+}
+.bdg-sect {
+padding-top:100px;
+padding-bottom:100px;
+font-family:Helvetica, serif;
+background-color:#fafafa;
+}
+.bdg-title {
+text-align:center;
+font-size:2em;
+margin-bottom:55px;
+color:#555555;
+}
+.badges {
+padding:20px;
+display:flex;
+justify-content:space-around;
+align-items:flex-start;
+flex-wrap:wrap;
+}
+.badge {
+width:290px;
+font-family:Helvetica, serif;
+background-color:white;
+margin-bottom:30px;
+box-shadow:0 2px 2px 0 rgba(0, 0, 0, 0.2);
+border-radius:3px;
+font-weight:100;
+overflow:hidden;
+text-align:center;
+}
+.badge-header {
+height:115px;
+background-image:url("//grapesjs.com/img/bg-gr-v.png"), url("//grapesjs.com/img/work-desk.jpg");
+background-position:left top, center center;
+background-attachment:scroll, fixed;
+overflow:hidden;
+}
+.badge-name {
+font-size:1.4em;
+margin-bottom:5px;
+}
+.badge-role {
+color:#777;
+font-size:1em;
+margin-bottom:25px;
+}
+.badge-avatar {
+width:100px;
+height:100px;
+border-radius:100%;
+border:5px solid #fff;
+box-shadow:0 1px 1px 0 rgba(0, 0, 0, 0.2);
+margin-top:-75px;position:relative;
+}
+.badge-body {
+margin:35px 10px;
+}
+.badge-foot {
+color:#fff;
+background-color:#a290a5;
+padding-top:13px;
+padding-bottom:13px;
+display:flex;
+justify-content:center;
+}
+.badge-link {
+height:35px;
+width:35px;
+line-height:35px;
+font-weight:700;
+background-color:#fff;
+color:#a290a5;
+display:block;
+border-radius:100%;
+margin:0 10px;
+}
+#ik18t {
+font-family:Lucida Sans Unicode, Lucida Grande, sans-serif;font-size:36px;
+}
+</style>
+</head>
+<body>
+<section class="bdg-sect" id="inihf">
+  <h1 class="bdg-title" id="ik18t">AMT Team<br/></h1>
+  <div class="container-width" id="ibybj">
+    <div class="badges" id="i9d8y">
+      <div class="badge">
+        <div class="badge-header" id="i8jnug"></div>
+        <img src="/media/Amadi.png" class="badge-avatar" id="io06tn"/>
+        <div class="badge-body"><div class="badge-name" id="iuua8k">Amadeusz Walas<br/></div>
+          <div class="badge-role" id="ictnyc">Junior Python Developer<br/></div>
+        </div>
+        <div class="badge-foot">
+          <span class="badge-link"><a href="https://github.com/Bambamdilla">Git</a></span>
+          <span class="badge-link"><a href="https://www.linkedin.com/in/amadeusz-walas-993b97b7/">in</a></span></div>
+      </div>
+      <div class="badge"><div class="badge-header"></div>
+        <img src="/media/Mateusz2.png" class="badge-avatar"/>
+        <div class="badge-body" id="i7lw5g"><div class="badge-name" id="ioms4h">Mateusz Telega<br/></div>
+          <div class="badge-role" id="ijo1w4">Software Tester, Junior Python Developer<br/></div>
+        </div>
+        <div class="badge-foot">
+          <span class="badge-link"><a href="https://github.com/MateuszTelega/">Git</a></span>
 
-
+        </div>
+      </div>
+      <div class="badge"><div class="badge-header"></div>
+        <img src="/media/Tomek.jpg" class="badge-avatar" id="idg0pj"/>
+        <div class="badge-body"><div class="badge-name" id="igidle">Tomasz Wasiewicz<br/></div>
+          <div class="badge-role" id="iwu4lz">Junior Python Developer<br/></div>
+        </div>
+        <div class="badge-foot">
+          <span class="badge-link"><a href="https://github.com/Greavity">Git</a></span>
+          <span class="badge-link"><a href="https://www.linkedin.com/in/tomasz-wasiewicz-534070154/">in</a></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+{% endblock %}
