@@ -32,7 +32,7 @@
           <div class="navbar-nav">
             <div class="nav-item dropdown">
               <a class="nav-link active dropdown-toggle" href="#" data-toggle="dropdown">
-                Events
+                <button class="btn btn-primary">Events</button>
               </a>
               {% block dropdown %}{% endblock %}
             </div>
@@ -42,10 +42,10 @@
 
             </form>
           </div>
-
+          <div class="navbar-nav">
           <div class="nav-item dropdown">
             <a class="nav-link active dropdown-toggle" data-toggle="dropdown">
-            Filter
+              <button class="btn btn-primary">Filter</button>
             </a>
           <div class="dropdown-menu dropdown-menu-right">
           <form method="GET" action="{% url 'core:event_filter' %}">
@@ -53,6 +53,7 @@
             <button type="submit" class="btn btn-primary">Search</button>
             <a class="btn btn-warning" href="{% url 'index' %}">Reset</a>
           </form>
+          </div>
           </div>
           </div>
 
@@ -65,8 +66,10 @@
             <div class="nav-item dropdown">
               {% if user.is_authenticated %}
                 <a class="nav-link active dropdown-toggle" href="{% url 'accounts:logout' %}" data-toggle="dropdown">
+                  <button class="btn btn-primary">
                   {% if user.name %}Hello, {{ user.name }}!
                   {% else %}Hello, {{ user.login_email }}!{% endif %}
+                  </button>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                   <a class="dropdown-item text-right" href="{% url 'accounts:logout' %}">Logout</a>
