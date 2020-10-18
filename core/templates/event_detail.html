@@ -115,7 +115,7 @@
   <div class="line">
     <p class="titles"><b>Comments section:</b></p></div>
 
-  {% for result in comments %}
+  {% for result in comments|dictsortreversed:"created" %}
   <div class="container">
     <div class="row">
         <div class="col-8">
